@@ -1,0 +1,42 @@
+---
+title: "reading_from_web"
+author: "Elaine Yanxi Chen"
+date: 2022-10-13
+output: 
+  github_document
+    
+
+    
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## NSDUH data
+
+```{r}
+library(tidyverse)
+library(rvest)
+library(httr)
+```
+
+```{r}
+url = "http://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm"
+drug_use_html = read_html(url)
+```
+
+```{r}
+drug_use_html %>% 
+  html_table()
+```
+
+This gives all tables from the website. We only want the first table in that list.
+
+```{r}
+drug_use_html %>% 
+  html_table() %>% 
+  first()
+```
+
