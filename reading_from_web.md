@@ -338,24 +338,90 @@ that list.
 ``` r
 drug_use_html %>% 
   html_table() %>% 
-  first()
+  first() %>% 
+  slice(-1)
 ```
 
-    ## # A tibble: 57 × 16
-    ##    State       `12+(2013-2014)` `12+(2014-2015)` `12+(P Value)` `12-17(2013-20…`
-    ##    <chr>       <chr>            <chr>            <chr>          <chr>           
-    ##  1 "NOTE: Sta… "NOTE: State an… "NOTE: State an… "NOTE: State … "NOTE: State an…
-    ##  2 "Total U.S… "12.90a"         "13.36"          "0.002"        "13.28b"        
-    ##  3 "Northeast" "13.88a"         "14.66"          "0.005"        "13.98"         
-    ##  4 "Midwest"   "12.40b"         "12.76"          "0.082"        "12.45"         
-    ##  5 "South"     "11.24a"         "11.64"          "0.029"        "12.02"         
-    ##  6 "West"      "15.27"          "15.62"          "0.262"        "15.53a"        
-    ##  7 "Alabama"   "9.98"           "9.60"           "0.426"        "9.90"          
-    ##  8 "Alaska"    "19.60a"         "21.92"          "0.010"        "17.30"         
-    ##  9 "Arizona"   "13.69"          "13.12"          "0.364"        "15.12"         
-    ## 10 "Arkansas"  "11.37"          "11.59"          "0.678"        "12.79"         
-    ## # … with 47 more rows, and 11 more variables: `12-17(2014-2015)` <chr>,
+    ## # A tibble: 56 × 16
+    ##    State      `12+(2013-2014)` `12+(2014-2015)` `12+(P Value)` `12-17(2013-201…`
+    ##    <chr>      <chr>            <chr>            <chr>          <chr>            
+    ##  1 Total U.S. 12.90a           13.36            0.002          13.28b           
+    ##  2 Northeast  13.88a           14.66            0.005          13.98            
+    ##  3 Midwest    12.40b           12.76            0.082          12.45            
+    ##  4 South      11.24a           11.64            0.029          12.02            
+    ##  5 West       15.27            15.62            0.262          15.53a           
+    ##  6 Alabama    9.98             9.60             0.426          9.90             
+    ##  7 Alaska     19.60a           21.92            0.010          17.30            
+    ##  8 Arizona    13.69            13.12            0.364          15.12            
+    ##  9 Arkansas   11.37            11.59            0.678          12.79            
+    ## 10 California 14.49            15.25            0.103          15.03            
+    ## # … with 46 more rows, and 11 more variables: `12-17(2014-2015)` <chr>,
     ## #   `12-17(P Value)` <chr>, `18-25(2013-2014)` <chr>, `18-25(2014-2015)` <chr>,
     ## #   `18-25(P Value)` <chr>, `26+(2013-2014)` <chr>, `26+(2014-2015)` <chr>,
     ## #   `26+(P Value)` <chr>, `18+(2013-2014)` <chr>, `18+(2014-2015)` <chr>,
     ## #   `18+(P Value)` <chr>
+
+slice is similar to filter but removes rows with specific row number
+
+## Star Wars data
+
+``` r
+url = "https://www.imdb.com/list/ls070150896/"
+
+swm_html = read_html(url)
+```
+
+How do I get the stuff I want
+
+``` r
+sw_titles =
+  swm_html %>%
+  html_elements(".lister-item-header a") %>%
+  html_text()
+
+sw_runtime =
+  swm_html %>%
+  html_elements(".runtime") %>%
+  html_text()
+
+sw_money = 
+  swm_html %>%
+  html_elements(".text-small:nth-child(7) span:nth-child(5)") %>%
+  html_text()
+
+sw_df =
+  tibble(
+    title = sw_titles,
+    runtime = sw_runtime,
+    money = sw_money
+  )
+```
+
+Napolean Dynamite review
+
+``` r
+url = "https://www.amazon.com/product-reviews/B00005JNBQ/ref=cm_cr_arp_d_viewopt_rvwer?ie=UTF8&reviewerType=avp_only_reviews&sortBy=recent&pageNumber=1"
+
+dynamite_html = read_html(url)
+
+review_titles = 
+  dynamite_html %>%
+  html_elements(".a-text-bold span") %>%
+  html_text()
+
+review_stars = 
+  dynamite_html %>%
+  html_elements("#cm_cr-review_list .review-rating") %>%
+  html_text()
+
+review_text = 
+  dynamite_html %>%
+  html_elements(".review-text-content span") %>%
+  html_text()
+
+reviews = tibble(
+  title = review_titles,
+  stars = review_stars,
+  text = review_text
+)
+```
