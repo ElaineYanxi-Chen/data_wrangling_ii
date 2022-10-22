@@ -159,7 +159,7 @@ marj_df =
   )
 ```
 
-
+One "\" indicates the special character "\", while two "\\" before the bracket tells R to separate at the bracket (look for that specific special character instead of the backslash).
 
 ```{r}
 marj_df %>% 
@@ -177,8 +177,11 @@ marj_df %>%
 data("rest_inspec")
 ```
 
+Slice up big datasets and only view the first 1000 observations. 
+
 ```{r}
-rest_inspec
+rest_inspec %>% 
+  slice(1:1000) %>% view
 ```
 
 ```{r}

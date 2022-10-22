@@ -165,6 +165,10 @@ marj_df =
   )
 ```
 
+One “" indicates the special character”", while two “\\” before the
+bracket tells R to separate at the bracket (look for that specific
+special character instead of the backslash).
+
 ``` r
 marj_df %>% 
   filter(age == "12-17") %>% 
@@ -182,27 +186,12 @@ marj_df %>%
 data("rest_inspec")
 ```
 
-``` r
-rest_inspec
-```
+Slice up big datasets and only view the first 1000 observations.
 
-    ## # A tibble: 397,584 × 18
-    ##    action             boro  building  camis critical_flag cuisine_descrip… dba  
-    ##    <chr>              <chr> <chr>     <int> <chr>         <chr>            <chr>
-    ##  1 Violations were c… MANH… 425      4.15e7 Not Critical  Italian          SPIN…
-    ##  2 Violations were c… MANH… 37       4.12e7 Critical      Korean           SHIL…
-    ##  3 Violations were c… MANH… 15       4.11e7 Not Critical  CafÃ©/Coffee/Tea CITY…
-    ##  4 Violations were c… MANH… 35       4.13e7 Critical      Korean           MADA…
-    ##  5 Violations were c… MANH… 1271     5.00e7 Critical      American         THE …
-    ##  6 Violations were c… MANH… 155      5.00e7 Not Critical  Donuts           DUNK…
-    ##  7 Violations were c… MANH… 1164     5.00e7 Critical      Salads           SWEE…
-    ##  8 Violations were c… MANH… 37       4.12e7 Not Critical  Korean           SHIL…
-    ##  9 Violations were c… MANH… 299      5.01e7 Not Critical  American         PRET…
-    ## 10 Violations were c… MANH… 53       4.04e7 Not Critical  Korean           HAN …
-    ## # … with 397,574 more rows, and 11 more variables: inspection_date <dttm>,
-    ## #   inspection_type <chr>, phone <chr>, record_date <dttm>, score <int>,
-    ## #   street <chr>, violation_code <chr>, violation_description <chr>,
-    ## #   zipcode <int>, grade <chr>, grade_date <dttm>
+``` r
+rest_inspec %>% 
+  slice(1:1000) %>% view
+```
 
 ``` r
 rest_inspec %>% 
